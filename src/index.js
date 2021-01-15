@@ -22,3 +22,5 @@ function onSearchQuery(e) {
 
   refs.form.reset();
 }
+
+//  Проверить будет ли рабоать refs.form.reset(); при событии нажатия на кнопку "Загрузить еще", останется ли у нас  let query при старром вводе.
