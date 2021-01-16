@@ -40,7 +40,7 @@ function onSearchQuery(e) {
   onResetSearch();
 }
 function onLoadMore() {
-  loadMoreBtn.disable();
+  // loadMoreBtn.disable();
   API.incrementPage();
   API.getFetch().then(renderList);
 }
