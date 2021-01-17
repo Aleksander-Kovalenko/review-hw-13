@@ -1,6 +1,14 @@
 import './styles.css';
+// BOOTSTRAP
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+// basicLightbox
+import * as basicLightbox from 'basiclightbox';
+// NOTIFYCATION
+import '@pnotify/core/dist/BrightTheme.css';
+import '@pnotify/core/dist/PNotify.css';
+import { info, error } from '@pnotify/core';
+
 import LoadMoreBtn from './js/load-more-bnt.js';
 import ServerApi from './js/apiServer.js';
 import reference from './js/references.js';
@@ -11,7 +19,6 @@ const loadMoreBtn = new LoadMoreBtn({
   hidden: true,
 });
 const API = new ServerApi();
-
 const ref = reference();
 
 ref.form.addEventListener('submit', onSearchQuery);
@@ -19,24 +26,26 @@ loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 function onSearchQuery(e) {
   e.preventDefault();
-
   API.startPage();
-  loadMoreBtn.show();
-
   let query = e.currentTarget.elements.query.value;
   if (query === '') {
-    return alert('Попробуйте! И вы удивитесь нашим ответом');
+    return info({
+      text: 'Попробуйте! И вы удивитесь нашим ответом',
+      delay: 3000,
+    });
+  } else {
+    loadMoreBtn.show();
   }
   API.query = query;
   API.getFetch().then(renderList);
-
   onResetSearch();
 }
 
 function onLoadMore() {
   loadMoreBtn.disable();
   API.incrementPage();
-  API.getFetch().then(renderList);
+  API.getFetch().then(renderList).then(statusScroll);
+  statusScroll();
 }
 
 function onResetSearch() {
@@ -45,12 +54,22 @@ function onResetSearch() {
 }
 
 function renderList(searchArr) {
-  statusBtn(searchArr.length);
+  statusButton(searchArr.length);
   const templateCard = template(searchArr);
   ref.cardBox.insertAdjacentHTML('beforeend', templateCard);
 }
 
-function statusBtn(length) {
+function statusButton(length) {
   length < 12 && loadMoreBtn.hide();
   length === 12 && loadMoreBtn.enable();
+  length === 0 &&
+    info({
+      text: 'Эволюции еще слишком рано к таким запросам.',
+      delay: 3000,
+    });
+}
+
+function statusScroll() {
+  let size = ref.height;
+  window.scrollTo({ top: size + 800, behavior: 'smooth' });
 }

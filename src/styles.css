@@ -30,6 +30,9 @@ body {
   margin-right: 30px;
   margin-bottom: 30px;
 }
+.gallery {
+  width: 100%;
+}
 
 .photo-card {
   cursor: pointer;
