@@ -40,12 +40,19 @@ function onSearchQuery(e) {
   API.getFetch().then(renderList);
   onResetSearch();
 }
-
+let scroll = document.documentElement.clientHeight;
 function onLoadMore() {
+  scroll += scroll;
   loadMoreBtn.disable();
   API.incrementPage();
-  API.getFetch().then(renderList).then(statusScroll);
-  statusScroll();
+  API.getFetch().then(response => {
+    renderList(response);
+    console.log(scroll);
+    window.scrollTo({
+      top: scroll,
+      behavior: 'smooth',
+    });
+  });
 }
 
 function onResetSearch() {
@@ -54,9 +61,9 @@ function onResetSearch() {
 }
 
 function renderList(searchArr) {
-  statusButton(searchArr.length);
   const templateCard = template(searchArr);
   ref.cardBox.insertAdjacentHTML('beforeend', templateCard);
+  statusButton(searchArr.length);
 }
 
 function statusButton(length) {
@@ -67,9 +74,4 @@ function statusButton(length) {
       text: 'Эволюции еще слишком рано к таким запросам.',
       delay: 3000,
     });
-}
-
-function statusScroll() {
-  let size = ref.height;
-  window.scrollTo({ top: size + 800, behavior: 'smooth' });
 }
