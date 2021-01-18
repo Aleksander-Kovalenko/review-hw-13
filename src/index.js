@@ -40,16 +40,14 @@ function onSearchQuery(e) {
   API.getFetch().then(renderList);
   onResetSearch();
 }
-let scroll = document.documentElement.clientHeight;
+
 function onLoadMore() {
-  scroll += scroll;
   loadMoreBtn.disable();
   API.incrementPage();
   API.getFetch().then(response => {
     renderList(response);
-    console.log(scroll);
     window.scrollTo({
-      top: scroll,
+      top: document.documentElement.clientHeight + scroll,
       behavior: 'smooth',
     });
   });
