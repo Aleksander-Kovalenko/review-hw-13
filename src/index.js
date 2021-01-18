@@ -47,7 +47,7 @@ function onLoadMore() {
   API.getFetch().then(response => {
     renderList(response);
     window.scrollTo({
-      top: document.documentElement.clientHeight + scroll,
+      top: document.documentElement.clientHeight,
       behavior: 'smooth',
     });
   });
