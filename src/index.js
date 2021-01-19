@@ -2,13 +2,12 @@ import './styles.css';
 // BOOTSTRAP
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
-// basicLightbox
-import * as basicLightbox from 'basiclightbox';
 // NOTIFYCATION
 import '@pnotify/core/dist/BrightTheme.css';
 import '@pnotify/core/dist/PNotify.css';
 import { info, error } from '@pnotify/core';
 
+import modalWindow from './js/modalWin.js';
 import LoadMoreBtn from './js/load-more-bnt.js';
 import ServerApi from './js/apiServer.js';
 import reference from './js/references.js';
@@ -22,6 +21,7 @@ const API = new ServerApi();
 const ref = reference();
 
 ref.form.addEventListener('submit', onSearchQuery);
+ref.cardBox.addEventListener('click', modalWindow);
 loadMoreBtn.refs.button.addEventListener('click', onLoadMore);
 
 function onSearchQuery(e) {
