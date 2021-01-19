@@ -11,9 +11,8 @@ export default class apiServer {
     console.log(this.page);
     const url = `${BASE_URL}?image_type=photo&orientation=horizontal&q=${this.searchQuery}&page=${this.page}&per_page=12&key=${API_KEY}`;
 
-    const requestOnServer = await fetch(url);
-
     try {
+      const requestOnServer = await fetch(url);
       const response = await requestOnServer.json();
       return response.hits;
     } catch (error) {
